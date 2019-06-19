@@ -1,5 +1,4 @@
 #include "DTNtuplePh2Analyzer.h"
-#include <DataFormats/MuonDetId/src/DTWireId.cc>
 
 
 DTNtuplePh2Analyzer::DTNtuplePh2Analyzer(const TString & inFileName,
@@ -35,7 +34,7 @@ void DTNtuplePh2Analyzer::Loop()
 		  << jentry << " entries\r" << std::flush;
 
       fillMap();
-
+      
     }
 
   std::cout << std::endl; 
@@ -52,13 +51,35 @@ void DTNtuplePh2Analyzer::book()
   m_plots["hTimeBox"] = new TH1F("hTimeBox",
 				 "Ph2 time box; time (ns); entries/5 ns",
 				 250,0.,1250.); 
+
 }
 
 void DTNtuplePh2Analyzer::fillMap()
 {
-
+  // eg map with one histogram
   for (std::size_t iDigi = 0; iDigi < digi_nDigis; ++iDigi)
     m_plots["hTimeBox"]->Fill(digi_time->at(iDigi));
+
+  // maps with ph1 digis
+  for (std::size_t iDigi = 0; iDigi < digi_nDigis; ++iDigi){
+    m_ph1Digis[ DTWireId(digi_wheel     ->at(iDigi), 
+                         digi_station   ->at(iDigi), 
+                         digi_sector    ->at(iDigi), 
+                         digi_superLayer->at(iDigi), 
+                         digi_layer     ->at(iDigi), 
+                         digi_wire      ->at(iDigi)) ].push_back(digi_time->at(iDigi));
+  }
+
+  // maps with ph2 digis
+  for (std::size_t iDigi = 0; iDigi < ph2Digi_nDigis; ++iDigi){
+    m_ph2Digis[ DTWireId(ph2Digi_wheel     ->at(iDigi), 
+                         ph2Digi_station   ->at(iDigi), 
+                         ph2Digi_sector    ->at(iDigi), 
+                         ph2Digi_superLayer->at(iDigi), 
+                         ph2Digi_layer     ->at(iDigi), 
+                         ph2Digi_wire      ->at(iDigi)) ].push_back(ph2Digi_time->at(iDigi));
+  }
+  
 
 }
 

@@ -2,6 +2,7 @@
 #define DTNtuplePh2Analyzer_h
 
 #include "DTNtupleBaseAnalyzer.h"
+#include <DataFormats/MuonDetId/interface/DTWireId.h>
 
 #include "TFile.h"
 #include "TH1F.h"
@@ -34,8 +35,8 @@ class DTNtuplePh2Analyzer : public DTNtupleBaseAnalyzer
 
   TFile f_outFile;
 
-  std::map<int, vector<float> > m_ph1Digis;
-  std::map<int, vector<float> > m_ph2Digis;
+  std::map<DTWireId, std::vector<float> > m_ph1Digis;
+  std::map<DTWireId, std::vector<float> > m_ph2Digis;
 
   std::map<TString, TH1*> m_plots;
 
