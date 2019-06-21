@@ -31,6 +31,8 @@ class DTNtuplePh2Analyzer : public DTNtupleBaseAnalyzer
 
   void book();
   void fillMap();
+  void clearMap();
+  void compare();
   void endJob();
 
   TFile f_outFile;
