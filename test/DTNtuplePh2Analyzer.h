@@ -7,6 +7,7 @@
 #include "TFile.h"
 #include "TH1F.h"
 #include "TH2F.h"
+#include "TEfficiency.h"
 
 #include <string>
 #include <cstdlib>
@@ -41,6 +42,8 @@ class DTNtuplePh2Analyzer : public DTNtupleBaseAnalyzer
   std::map<DTWireId, std::vector<float> > m_ph2Digis;
 
   std::map<TString, TH1*> m_plots;
+
+  std::map<TString, TEfficiency*> m_eff;
 
 
 };

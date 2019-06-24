@@ -52,13 +52,25 @@ void DTNtuplePh2Analyzer::book()
 
   f_outFile.cd();
 
+  // 1D histos
   m_plots["h_Ph2DigiWithoutPh1"] = new TH1F("h_Ph2DigiWithoutPh1",
 				            "Ph2 digi with no Ph1 correspondence; time (ns); entries/50 ns",
 				            300,75000.,90000.); 
 
+  // m_plots["h_Ph2DigiMinusPh1Digi"] = new TH1F("h_Ph2DigiMinusPh1Digi",
+  // 				              "Ph2 digi offset wrt Ph1 digi; time (ns); entries/5 ns",
+  // 				              160,81700.,82500.);
+  
+
   m_plots["h_Ph2DigiMinusPh1Digi"] = new TH1F("h_Ph2DigiMinusPh1Digi",
-				              "Ph2 digi offset wrt Ph1 digi; time (ns); entries/5 ns",
-				              160,81700.,82500.); 
+				              "Ph2 digi offset wrt Ph1 digi; time (ns); entries/1 ns",
+				              16,82072.,82088.); 
+
+
+  // TEfficiency
+  m_eff["eff2_Ph2DigiMatching"] = new TEfficiency("eff2_Ph2DigiMatching",
+                                                  "Ph2 digi matching efficiency; wire; 4*SL+L",
+                                                  21,-0.5,20.5,12,4.5,16.5);
 
 }
 
@@ -113,25 +125,38 @@ void DTNtuplePh2Analyzer::clearMap()
 
 void DTNtuplePh2Analyzer::compare()
 {
+  // bool: true if ph2 digi matching with ph1 digi
+  bool bPassPh2;
+
   // compare ph2 and ph1 digis
   for (auto const& x : m_ph2Digis)
   {
     if(x.second.size() == 0) continue;
 
-    // save in histo ph2 digi that don't have ph1 digi corresponding 
+    // bool false for all ph2 digi (for TEff)
+    bPassPh2 = false;
+    
     if(m_ph1Digis[x.first].size() == 0){
       for(auto const& a : x.second){
+        // save in histo ph2 digi that don't have ph1 digi correspondence
         m_plots["h_Ph2DigiWithoutPh1"]->Fill(a);
       }
     } 
-    // save in histo ph2 digi and ph1 digi difference
     else{
+
+      // bool true for ph2 digi that have ph1 digi correspondence 
+      bPassPh2 = true;
+
       for(auto const& a : x.second){
         for(auto const& b : m_ph1Digis[x.first]){
+          // save in histo ph2 digi and ph1 digi difference
           m_plots["h_Ph2DigiMinusPh1Digi"]->Fill(a-b);
         }
       }
     }
+
+    // TEfficiency for ph2 digi that have ph1 digi correspondence 
+    m_eff["eff2_Ph2DigiMatching"]->Fill(bPassPh2, x.first.wire(), 4*x.first.superlayer()+x.first.layer());  
   }
 
 }
@@ -140,6 +165,7 @@ void DTNtuplePh2Analyzer::endJob()
 {
 
   f_outFile.cd();
+
 
   f_outFile.Write();
   f_outFile.Close();
