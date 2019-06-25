@@ -57,12 +57,12 @@ void DTNtuplePh2Analyzer::book()
 				            "Ph2 digi with no Ph1 correspondence; time (ns); entries/50 ns",
 				            300,75000.,90000.); 
 
-  // m_plots["h_Ph2DigiMinusPh1Digi"] = new TH1F("h_Ph2DigiMinusPh1Digi",
-  // 				              "Ph2 digi offset wrt Ph1 digi; time (ns); entries/5 ns",
-  // 				              160,81700.,82500.);
+  m_plots["h_Ph2DigiMinusPh1Digi"] = new TH1F("h_Ph2DigiMinusPh1Digi",
+  				              "Ph2 digi offset wrt Ph1 digi; time (ns); entries/5 ns",
+  				              160,81700.,82500.);
   
 
-  m_plots["h_Ph2DigiMinusPh1Digi"] = new TH1F("h_Ph2DigiMinusPh1Digi",
+  m_plots["h_Ph2DigiMinusPh1Digi_zoom"] = new TH1F("h_Ph2DigiMinusPh1Digi",
 				              "Ph2 digi offset wrt Ph1 digi; time (ns); entries/1 ns",
 				              16,82072.,82088.); 
 
@@ -151,6 +151,7 @@ void DTNtuplePh2Analyzer::compare()
         for(auto const& b : m_ph1Digis[x.first]){
           // save in histo ph2 digi and ph1 digi difference
           m_plots["h_Ph2DigiMinusPh1Digi"]->Fill(a-b);
+          m_plots["h_Ph2DigiMinusPh1Digi_zoom"]->Fill(a-b);
         }
       }
     }
