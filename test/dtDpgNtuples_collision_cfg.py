@@ -14,7 +14,7 @@ options.register('globalTag',
                  "Global Tag")
 
 options.register('nEvents',
-                 1000, #default value
+                 -1, #default value
                  VarParsing.VarParsing.multiplicity.singleton,
                  VarParsing.VarParsing.varType.int,
                  "Maximum number of processed events")
@@ -25,11 +25,25 @@ options.register('inputFolder',
                  VarParsing.VarParsing.varType.string,
                  "EOS folder with input files")
 
+options.register('secondaryInputFolder',
+                 '', #default value
+                 VarParsing.VarParsing.multiplicity.singleton,
+                 VarParsing.VarParsing.varType.string,
+                 "EOS folder with input files for secondary files")
+
 options.register('ntupleName',
                  './DTDPGNtuple_10_3_3_ZMuSkim_2018D.root', #default value
                  VarParsing.VarParsing.multiplicity.singleton,
                  VarParsing.VarParsing.varType.string,
                  "Folder and name ame for output ntuple")
+
+options.register('runOnMC',
+                 False, #default value
+                 VarParsing.VarParsing.multiplicity.singleton,
+                 VarParsing.VarParsing.varType.bool,
+                 "Apply customizations to run on MC")
+
+
 
 
 options.parseArguments()
@@ -57,6 +71,10 @@ process.source = cms.Source("PoolSource",
 files = subprocess.check_output(["ls", options.inputFolder])
 process.source.fileNames = ["file://" + options.inputFolder + "/" + f for f in files.split()]
 
+if options.secondaryInputFolder != "" :
+    files = subprocess.check_output(["ls", options.secondaryInputFolder])
+    process.source.secondaryFileNames = ["file://" + options.secondaryInputFolder + "/" + f for f in files.split()]
+
 process.TFileService = cms.Service('TFileService',
         fileName = cms.string(options.ntupleName)
     )
@@ -68,9 +86,13 @@ process.load('Configuration.StandardSequences.RawToDigi_Data_cff')
 process.load('DTDPGAnalysis.DTNtuples.dtNtupleProducer_collision_cfi')
 
 process.p = cms.Path(process.muonDTDigis 
-                     + process.twinMuxStage2Digis
                      + process.bmtfDigis
+                     + process.twinMuxStage2Digis
+                     + process.scalersRawToDigi
                      + process.dtNtupleProducer)
 
+if options.runOnMC :
+    from DTDPGAnalysis.DTNtuples.customiseDtNtuples_cff import customiseForRunningOnMC
+    customiseForRunningOnMC(process,"p")
 
 

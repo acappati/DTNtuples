@@ -8,7 +8,7 @@ import sys
 options = VarParsing.VarParsing()
 
 options.register('globalTag',
-                 '106X_dataRun2_v10', #default value
+                 '106X_upgrade2018_realistic_v4', #default value
                  VarParsing.VarParsing.multiplicity.singleton,
                  VarParsing.VarParsing.varType.string,
                  "Global Tag")
@@ -19,30 +19,23 @@ options.register('nEvents',
                  VarParsing.VarParsing.varType.int,
                  "Maximum number of processed events")
 
-options.register('inputFile',
-                 '/eos/cms/store/group/dpg_dt/comm_dt/commissioning_2019_data/root/run329614_streamDQM_fu-c2f13-09-03.root', #default value
+options.register('inputFolder',
+                 '/eos/cms/store/group/dpg_dt/comm_dt/TriggerSimulation/SamplesReco/SingleMu_FlatPt-2to100/Version_10_5_0/', #default value
                  VarParsing.VarParsing.multiplicity.singleton,
                  VarParsing.VarParsing.varType.string,
-                 "The input file to be processed")
-
-options.register('inputFolder',
-                 '', #default value
-                  VarParsing.VarParsing.multiplicity.singleton,
-                  VarParsing.VarParsing.varType.string,
                  "EOS folder with input files")
 
-options.register('tTrigFile',
+options.register('secondaryInputFolder',
                  '', #default value
                  VarParsing.VarParsing.multiplicity.singleton,
                  VarParsing.VarParsing.varType.string,
-                 "File with customised DT tTrigs, used only if non ''")
+                 "EOS folder with input files for secondary files")
 
 options.register('ntupleName',
-                 './DTDPGNtuple_10_6_0_SX5.root', #default value
+                 './DTDPGNtuple_10_6_0_Phase2_Simulation.root', #default value
                  VarParsing.VarParsing.multiplicity.singleton,
                  VarParsing.VarParsing.varType.string,
                  "Folder and name ame for output ntuple")
-
 
 options.parseArguments()
 
@@ -59,35 +52,19 @@ process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condD
 
 process.GlobalTag.globaltag = cms.string(options.globalTag)
 
-if options.tTrigFile != '' :
-
-    process.GlobalTag.toGet = cms.VPSet(
-        cms.PSet(record = cms.string("DTTtrigRcd"),
-                 tag = cms.string("ttrig"),
-                 connect = cms.string("sqlite_file:" + options.tTrigFile),
-                 label = cms.untracked.string("cosmics")
-                 )
-        )
-
 process.source = cms.Source("PoolSource",
                             
-        fileNames = cms.untracked.vstring(""),
+        fileNames = cms.untracked.vstring(),
         secondaryFileNames = cms.untracked.vstring()
 
 )
 
-if (options.inputFile == '' and options.inputFolder == '') or \
-   (options.inputFile != '' and options.inputFolder != '') :
+files = subprocess.check_output(["ls", options.inputFolder])
+process.source.fileNames = ["file://" + options.inputFolder + "/" + f for f in files.split()]
 
-    print "[dtDpgNtuples_slicetest_cfg.py]: inputFile and inputFolder can be non-null only one at a time. quitting."
-    sys.exit(999)
-    
-if options.inputFile != "" :
-    process.source.fileNames = cms.untracked.vstring("file://" + options.inputFile)
-
-if options.inputFolder != "" :
-    files = subprocess.check_output(["ls", options.inputFolder])
-    process.source.fileNames = ["file://" + options.inputFolder + "/" + f for f in files.split()]
+if options.secondaryInputFolder != "" :
+    files = subprocess.check_output(["ls", options.secondaryInputFolder])
+    process.source.secondaryFileNames = ["file://" + options.secondaryInputFolder + "/" + f for f in files.split()]
 
 process.TFileService = cms.Service('TFileService',
         fileName = cms.string(options.ntupleName)
@@ -96,17 +73,33 @@ process.TFileService = cms.Service('TFileService',
 process.load('Configuration/StandardSequences/GeometryRecoDB_cff')
 process.load("Configuration.StandardSequences.MagneticField_cff")
 
-process.load('Configuration.StandardSequences.RawToDigi_Data_cff')
-process.load('EventFilter.DTRawToDigi.dtab7unpacker_cfi')
+# process.DTGeometryESModule.applyAlignment = False
+# process.DTGeometryESModule.fromDDD = False
 
-process.load('RecoLocalMuon.Configuration.RecoLocalMuonCosmics_cff')
+process.load("Phase2L1Trigger.CalibratedDigis.CalibratedDigis_cfi") 
+process.load("L1Trigger.DTPhase2Trigger.dtTriggerPhase2PrimitiveDigis_cfi")
 
-process.load('DTDPGAnalysis.DTNtuples.dtNtupleProducer_slicetest_cfi')
+process.CalibratedDigis.dtDigiTag = "simMuonDTDigis"
+process.dtTriggerPhase2AmPrimitiveDigis = process.dtTriggerPhase2PrimitiveDigis.clone()
 
-process.p = cms.Path(process.muonDTDigis
-                     + process.dtAB7unpacker
-                     + process.dtlocalrecoT0Seg
+process.load('L1Trigger.DTHoughTPG.DTTPG_cfi')
+
+process.dtTriggerPhase2HbPrimitiveDigis = process.DTTPG.clone()
+process.dtTriggerPhase2HbPrimitiveDigis.FirstBX = cms.untracked.int32(20)
+process.dtTriggerPhase2HbPrimitiveDigis.LastBX = cms.untracked.int32(20)
+
+process.load('DTDPGAnalysis.DTNtuples.dtNtupleProducer_collision_cfi')
+
+process.p = cms.Path(process.CalibratedDigis
+                     + process.dtTriggerPhase2AmPrimitiveDigis
+                     + process.dtTriggerPhase2HbPrimitiveDigis
                      + process.dtNtupleProducer)
+
+from DTDPGAnalysis.DTNtuples.customiseDtNtuples_cff import customiseForRunningOnMC, customiseForPhase2Simulation, customiseForFakePhase2Info
+customiseForRunningOnMC(process,"p")
+customiseForPhase2Simulation(process)
+customiseForFakePhase2Info(process)
+
 
 
 
