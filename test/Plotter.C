@@ -36,6 +36,7 @@
 #include "TPaveText.h"
 #include "TRandom3.h"
 #include "TPaveText.h"
+#include "TEfficiency.h"
 
 
 void doThePlots(TString inputFile, TString outputPathPlots)
@@ -47,6 +48,8 @@ void doThePlots(TString inputFile, TString outputPathPlots)
   TH1F* h_Ph2DigiWithoutPh1        = (TH1F*)inFile->Get("h_Ph2DigiWithoutPh1");
   TH1F* h_Ph2DigiMinusPh1Digi      = (TH1F*)inFile->Get("h_Ph2DigiMinusPh1Digi");
   TH1F* h_Ph2DigiMinusPh1Digi_zoom = (TH1F*)inFile->Get("h_Ph2DigiMinusPh1Digi_zoom");
+
+  TEfficiency* eff2_Ph2DigiMatching = (TEfficiency*)inFile->Get("eff2_Ph2DigiMatching");
 
 
   // plot histos
@@ -64,7 +67,17 @@ void doThePlots(TString inputFile, TString outputPathPlots)
   c_Ph2DigiMinusPh1Digi_zoom->cd();
   h_Ph2DigiMinusPh1Digi_zoom->Draw();
   c_Ph2DigiMinusPh1Digi_zoom->SaveAs(outputPathPlots + "/" + c_Ph2DigiMinusPh1Digi_zoom->GetName() + ".png");
-  
+
+  TCanvas* c_eff2_Ph2DigiMatching = new TCanvas("c_eff2_Ph2DigiMatching","c_eff2_Ph2DigiMatching");
+  c_eff2_Ph2DigiMatching->cd();
+  eff2_Ph2DigiMatching->Draw("COLZ");
+  gPad->Update();
+  TH2* h_eff2_Ph2DigiMatching = eff2_Ph2DigiMatching->GetPaintedHistogram();
+  h_eff2_Ph2DigiMatching->SetMinimum(0.9);
+  h_eff2_Ph2DigiMatching->SetMaximum(1.0);
+  h_eff2_Ph2DigiMatching->Draw("same");
+  gPad->Update();
+  c_eff2_Ph2DigiMatching->SaveAs(outputPathPlots + "/" + c_eff2_Ph2DigiMatching->GetName() + ".png");
   
 
    
