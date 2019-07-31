@@ -41,6 +41,6 @@ root [2] analysis.Loop()
 ```
 root -b
 root [0] .x loadPh2Analysis.C
-root [1] DTNtuplePh2Analyzer analysis("DTDPGNtuple_10_3_3_SX5.root","results.root")
+root [1] DTNtuplePh2Analyzer analysis("DTDPGNtuple_run329806.root","results.root")
 root [2] analysis.Loop()
 ```
