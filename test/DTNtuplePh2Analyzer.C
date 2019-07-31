@@ -53,6 +53,14 @@ void DTNtuplePh2Analyzer::book()
   f_outFile.cd();
 
   // 1D histos
+  m_plots["h_timeBoxPh1"] = new TH1F("h_timeBoxPh1",
+                                     "Time box ph1; time (ns); entries/5 ns",
+                                     1000,0.,5000.); 
+
+  m_plots["h_timeBoxPh2"] = new TH1F("h_timeBoxPh2",
+                                     "Time box Ph2; time (ns); entries/5 ns",
+                                     1000,0.,5000.); 
+
   m_plots["h_Ph2DigiWithoutPh1"] = new TH1F("h_Ph2DigiWithoutPh1",
 				            "Ph2 digi with no Ph1 correspondence; time (ns); entries/50 ns",
 				            300,75000.,90000.); 
@@ -76,6 +84,16 @@ void DTNtuplePh2Analyzer::book()
 
 void DTNtuplePh2Analyzer::fillMap()
 {
+  // fill ph1 time box
+  for (std::size_t iDigi = 0; iDigi < digi_nDigis; ++iDigi){
+    m_plots["h_timeBoxPh1"]->Fill(digi_time->at(iDigi));
+  }
+  // fill ph2 time box
+  for (std::size_t iDigi = 0; iDigi < ph2Digi_nDigis; ++iDigi){
+    m_plots["h_timeBoxPh2"]->Fill(ph2Digi_time->at(iDigi));
+  }
+
+
   // maps with ph1 digis
   for (std::size_t iDigi = 0; iDigi < digi_nDigis; ++iDigi){
     m_ph1Digis[ DTWireId(digi_wheel     ->at(iDigi), 

@@ -45,6 +45,8 @@ void doThePlots(TString inputFile, TString outputPathPlots)
   TFile *inFile = TFile::Open("results.root");
 
   // take histos
+  TH1F* h_timeBoxPh1               = (TH1F*)inFile->Get("h_timeBoxPh1");
+  TH1F* h_timeBoxPh2               = (TH1F*)inFile->Get("h_timeBoxPh2");
   TH1F* h_Ph2DigiWithoutPh1        = (TH1F*)inFile->Get("h_Ph2DigiWithoutPh1");
   TH1F* h_Ph2DigiMinusPh1Digi      = (TH1F*)inFile->Get("h_Ph2DigiMinusPh1Digi");
   TH1F* h_Ph2DigiMinusPh1Digi_zoom = (TH1F*)inFile->Get("h_Ph2DigiMinusPh1Digi_zoom");
@@ -53,6 +55,16 @@ void doThePlots(TString inputFile, TString outputPathPlots)
 
 
   // plot histos
+  TCanvas* c_timeBoxPh1 = new TCanvas("c_timeBoxPh1","c_timeBoxPh1");
+  c_timeBoxPh1->cd();
+  h_timeBoxPh1->Draw();
+  c_timeBoxPh1->SaveAs(outputPathPlots + "/" + c_timeBoxPh1->GetName() + ".png");
+
+  TCanvas* c_timeBoxPh2 = new TCanvas("c_timeBoxPh2","c_timeBoxPh2");
+  c_timeBoxPh2->cd();
+  h_timeBoxPh2->Draw();
+  c_timeBoxPh2->SaveAs(outputPathPlots + "/" + c_timeBoxPh2->GetName() + ".png");
+
   TCanvas* c_Ph2DigiWithoutPh1 = new TCanvas("c_Ph2DigiWithoutPh1","c_Ph2DigiWithoutPh1");
   c_Ph2DigiWithoutPh1->cd();
   h_Ph2DigiWithoutPh1->Draw();
