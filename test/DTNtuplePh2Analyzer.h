@@ -30,11 +30,11 @@ class DTNtuplePh2Analyzer : public DTNtupleBaseAnalyzer
 
  protected : 
 
-  void book();
+  void virtual book() override;
   void fillMap();
   void clearMap();
   void compare();
-  void endJob();
+  void virtual endJob() override;
 
   TFile f_outFile;
 
