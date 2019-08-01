@@ -77,8 +77,8 @@ void DTNtuplePh2Analyzer::book()
 
   // TEfficiency
   m_eff["eff2_Ph2DigiMatching"] = new TEfficiency("eff2_Ph2DigiMatching",
-                                                  "Ph2 digi matching efficiency; wire; 4*SL+L",
-                                                  21,-0.5,20.5,12,4.5,16.5);
+                                                  "Ph2 digi matching efficiency; wire; 4*(SL-1)+L",
+                                                  21,-0.5,20.5,12,0.5,12.5);
 
 }
 
@@ -175,7 +175,7 @@ void DTNtuplePh2Analyzer::compare()
     }
 
     // TEfficiency for ph2 digi that have ph1 digi correspondence 
-    m_eff["eff2_Ph2DigiMatching"]->Fill(bPassPh2, x.first.wire(), 4*x.first.superlayer()+x.first.layer());  
+    m_eff["eff2_Ph2DigiMatching"]->Fill(bPassPh2, x.first.wire(), 4*(x.first.superlayer()-1)+x.first.layer());  
   }
 
 }
