@@ -50,6 +50,7 @@ void doThePlots(TString inputFile, TString outputPathPlots)
   TH1F* h_Ph2DigiWithoutPh1        = (TH1F*)inFile->Get("h_Ph2DigiWithoutPh1");
   TH1F* h_Ph2DigiMinusPh1Digi      = (TH1F*)inFile->Get("h_Ph2DigiMinusPh1Digi");
   TH1F* h_Ph2DigiMinusPh1Digi_zoom = (TH1F*)inFile->Get("h_Ph2DigiMinusPh1Digi_zoom");
+  TH1F* h_Ph2DigiMinusPh1Digi_min  = (TH1F*)inFile->Get("h_Ph2DigiMinusPh1Digi_min");
 
   TEfficiency* eff2_Ph2DigiMatching = (TEfficiency*)inFile->Get("eff2_Ph2DigiMatching");
 
@@ -79,6 +80,12 @@ void doThePlots(TString inputFile, TString outputPathPlots)
   c_Ph2DigiMinusPh1Digi_zoom->cd();
   h_Ph2DigiMinusPh1Digi_zoom->Draw();
   c_Ph2DigiMinusPh1Digi_zoom->SaveAs(outputPathPlots + "/" + c_Ph2DigiMinusPh1Digi_zoom->GetName() + ".png");
+
+  TCanvas* c_Ph2DigiMinusPh1Digi_min = new TCanvas("c_Ph2DigiMinusPh1Digi_min","c_Ph2DigiMinusPh1Digi_min");
+  c_Ph2DigiMinusPh1Digi_min->cd();
+  h_Ph2DigiMinusPh1Digi_min->Draw();
+  c_Ph2DigiMinusPh1Digi_min->SaveAs(outputPathPlots + "/" + c_Ph2DigiMinusPh1Digi_min->GetName() + ".png");
+
 
   TCanvas* c_eff2_Ph2DigiMatching = new TCanvas("c_eff2_Ph2DigiMatching","c_eff2_Ph2DigiMatching");
   c_eff2_Ph2DigiMatching->cd();

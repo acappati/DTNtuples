@@ -67,13 +67,18 @@ void DTNtuplePh2Analyzer::book()
 
   m_plots["h_Ph2DigiMinusPh1Digi"] = new TH1F("h_Ph2DigiMinusPh1Digi",
   				              "Ph2 digi offset wrt Ph1 digi; time (ns); entries/5 ns",
-  				              160,81700.,82500.);
+                                              100,79400,80700.);
+  				              //160,81700.,82500.);
   
-
   m_plots["h_Ph2DigiMinusPh1Digi_zoom"] = new TH1F("h_Ph2DigiMinusPh1Digi_zoom",
-				              "Ph2 digi offset wrt Ph1 digi; time (ns); entries/1 ns",
-				              16,82072.,82088.); 
+				                   "Ph2 digi offset wrt Ph1 digi; time (ns); entries/1 ns",
+				                   16,82072.,82088.); 
 
+  m_plots["h_Ph2DigiMinusPh1Digi_min"] = new TH1F("h_Ph2DigiMinusPh1Digi_min",
+  				                  "Ph2 digi offset wrt Ph1 digi; time (ns); entries/5 ns",
+                                                  100,79400,80700.);
+  				                  //160,81700.,82500.);
+  
 
   // TEfficiency
   m_eff["eff2_Ph2DigiMatching"] = new TEfficiency("eff2_Ph2DigiMatching",
@@ -164,14 +169,22 @@ void DTNtuplePh2Analyzer::compare()
 
       // bool true for ph2 digi that have ph1 digi correspondence 
       bPassPh2 = true;
+      float minDiff = 999999999.;
 
       for(auto const& a : x.second){
         for(auto const& b : m_ph1Digis[x.first]){
-          // save in histo ph2 digi and ph1 digi difference
+  
+          float tempDiff = a-b;
+          if(tempDiff<minDiff){
+            minDiff = tempDiff;
+          }          
+          // save in histo ph2 digi and ph1 digi difference cell by cell
           m_plots["h_Ph2DigiMinusPh1Digi"]->Fill(a-b);
           m_plots["h_Ph2DigiMinusPh1Digi_zoom"]->Fill(a-b);
         }
       }
+      // save in histo ph2 digi and ph1 minimum digi difference cell by cell
+      m_plots["h_Ph2DigiMinusPh1Digi_min"]->Fill(minDiff);
     }
 
     // TEfficiency for ph2 digi that have ph1 digi correspondence 
