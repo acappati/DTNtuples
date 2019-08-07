@@ -56,6 +56,8 @@ void doThePlots(TString inputFile, TString outputPathPlots)
 
 
   // plot histos
+
+  // --- time boxes
   TCanvas* c_timeBoxPh1 = new TCanvas("c_timeBoxPh1","c_timeBoxPh1");
   c_timeBoxPh1->cd();
   h_timeBoxPh1->Draw();
@@ -66,27 +68,61 @@ void doThePlots(TString inputFile, TString outputPathPlots)
   h_timeBoxPh2->Draw();
   c_timeBoxPh2->SaveAs(outputPathPlots + "/" + c_timeBoxPh2->GetName() + ".png");
 
+
+  // --- ph2 digi with no correspondence in ph1
   TCanvas* c_Ph2DigiWithoutPh1 = new TCanvas("c_Ph2DigiWithoutPh1","c_Ph2DigiWithoutPh1");
   c_Ph2DigiWithoutPh1->cd();
   h_Ph2DigiWithoutPh1->Draw();
   c_Ph2DigiWithoutPh1->SaveAs(outputPathPlots + "/" + c_Ph2DigiWithoutPh1->GetName() + ".png");
 
+  TCanvas* c_Ph2DigiWithoutPh1_log = new TCanvas("c_Ph2DigiWithoutPh1_log","c_Ph2DigiWithoutPh1_log");
+  c_Ph2DigiWithoutPh1_log->cd();
+  c_Ph2DigiWithoutPh1_log->SetLogy();
+  h_Ph2DigiWithoutPh1->Draw();
+  c_Ph2DigiWithoutPh1_log->SaveAs(outputPathPlots + "/" + c_Ph2DigiWithoutPh1_log->GetName() + ".png");
+
+
+  // --- ph2 - ph1 digi
   TCanvas* c_Ph2DigiMinusPh1Digi = new TCanvas("c_Ph2DigiMinusPh1Digi","c_Ph2DigiMinusPh1Digi");
   c_Ph2DigiMinusPh1Digi->cd();
   h_Ph2DigiMinusPh1Digi->Draw();
   c_Ph2DigiMinusPh1Digi->SaveAs(outputPathPlots + "/" + c_Ph2DigiMinusPh1Digi->GetName() + ".png");
 
+  TCanvas* c_Ph2DigiMinusPh1Digi_log = new TCanvas("c_Ph2DigiMinusPh1Digi_log","c_Ph2DigiMinusPh1Digi_log");
+  c_Ph2DigiMinusPh1Digi_log->cd();
+  c_Ph2DigiMinusPh1Digi_log->SetLogy();
+  h_Ph2DigiMinusPh1Digi->Draw();
+  c_Ph2DigiMinusPh1Digi_log->SaveAs(outputPathPlots + "/" + c_Ph2DigiMinusPh1Digi_log->GetName() + ".png");
+
+
+  // --- ph2 - ph1 digi zoom
   TCanvas* c_Ph2DigiMinusPh1Digi_zoom = new TCanvas("c_Ph2DigiMinusPh1Digi_zoom","c_Ph2DigiMinusPh1Digi_zoom");
   c_Ph2DigiMinusPh1Digi_zoom->cd();
   h_Ph2DigiMinusPh1Digi_zoom->Draw();
   c_Ph2DigiMinusPh1Digi_zoom->SaveAs(outputPathPlots + "/" + c_Ph2DigiMinusPh1Digi_zoom->GetName() + ".png");
 
+  TCanvas* c_Ph2DigiMinusPh1Digi_zoom_log = new TCanvas("c_Ph2DigiMinusPh1Digi_zoom_log","c_Ph2DigiMinusPh1Digi_zoom_log");
+  c_Ph2DigiMinusPh1Digi_zoom_log->cd();
+  c_Ph2DigiMinusPh1Digi_zoom_log->SetLogy();
+  h_Ph2DigiMinusPh1Digi_zoom->Draw();
+  c_Ph2DigiMinusPh1Digi_zoom_log->SaveAs(outputPathPlots + "/" + c_Ph2DigiMinusPh1Digi_zoom_log->GetName() + ".png");
+
+
+  // --- ph2 - ph1 digi min diff
   TCanvas* c_Ph2DigiMinusPh1Digi_min = new TCanvas("c_Ph2DigiMinusPh1Digi_min","c_Ph2DigiMinusPh1Digi_min");
   c_Ph2DigiMinusPh1Digi_min->cd();
   h_Ph2DigiMinusPh1Digi_min->Draw();
   c_Ph2DigiMinusPh1Digi_min->SaveAs(outputPathPlots + "/" + c_Ph2DigiMinusPh1Digi_min->GetName() + ".png");
 
+  TCanvas* c_Ph2DigiMinusPh1Digi_min_log = new TCanvas("c_Ph2DigiMinusPh1Digi_min_log","c_Ph2DigiMinusPh1Digi_min_log");
+  c_Ph2DigiMinusPh1Digi_min_log->cd();
+  c_Ph2DigiMinusPh1Digi_min_log->SetLogy();
+  h_Ph2DigiMinusPh1Digi_min->Draw();
+  c_Ph2DigiMinusPh1Digi_min_log->SaveAs(outputPathPlots + "/" + c_Ph2DigiMinusPh1Digi_min_log->GetName() + ".png");
 
+
+
+  // --- tefficiency ph1 ph2 matching
   TCanvas* c_eff2_Ph2DigiMatching = new TCanvas("c_eff2_Ph2DigiMatching","c_eff2_Ph2DigiMatching");
   c_eff2_Ph2DigiMatching->cd();
   eff2_Ph2DigiMatching->Draw("COLZ");
