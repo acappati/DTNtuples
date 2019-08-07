@@ -66,8 +66,8 @@ void DTNtuplePh2Analyzer::book()
 				            300,75000.,90000.); 
 
   m_plots["h_Ph2DigiMinusPh1Digi"] = new TH1F("h_Ph2DigiMinusPh1Digi",
-  				              "Ph2 digi offset wrt Ph1 digi; time (ns); entries/10 ns",
-                                              100,79400,80400.);
+  				              "Ph2 digi offset wrt Ph1 digi; time (ns); entries/50 ns",
+					      400,70000.,90000.); 
   
   m_plots["h_Ph2DigiMinusPh1Digi_zoom"] = new TH1F("h_Ph2DigiMinusPh1Digi_zoom",
 				                   "Ph2 digi offset wrt Ph1 digi; time (ns); entries/5 ns",
