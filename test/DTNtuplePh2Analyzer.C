@@ -52,7 +52,7 @@ void DTNtuplePh2Analyzer::book()
 
   f_outFile.cd();
 
-  // 1D histos
+  // time boxes
   m_plots["h_timeBoxPh1"] = new TH1F("h_timeBoxPh1",
                                      "Time box ph1; time (ns); entries/5 ns",
                                      1000,0.,5000.); 
@@ -61,6 +61,7 @@ void DTNtuplePh2Analyzer::book()
                                      "Time box Ph2; time (ns); entries/5 ns",
                                      1000,80000.,85000.); 
 
+  // ph2 wrt ph1 plots
   m_plots["h_Ph2DigiWithoutPh1"] = new TH1F("h_Ph2DigiWithoutPh1",
 				            "Ph2 digi with no Ph1 correspondence; time (ns); entries/50 ns",
 				            300,75000.,90000.); 
@@ -78,7 +79,7 @@ void DTNtuplePh2Analyzer::book()
                                                   100,79400,80400.);
   
 
-  // TEfficiency
+  // TEfficiency ph2 wrt ph1
   m_eff["eff2_Ph2DigiMatching"] = new TEfficiency("eff2_Ph2DigiMatching",
                                                   "Ph2 digi matching efficiency; wire; 4*(SL-1)+L",
                                                   21,-0.5,20.5,12,0.5,12.5);
