@@ -59,7 +59,7 @@ void DTNtuplePh2Analyzer::book()
 
   m_plots["h_timeBoxPh2"] = new TH1F("h_timeBoxPh2",
                                      "Time box Ph2; time (ns); entries/5 ns",
-                                     1000,0.,5000.); 
+                                     1000,80000.,85000.); 
 
   m_plots["h_Ph2DigiWithoutPh1"] = new TH1F("h_Ph2DigiWithoutPh1",
 				            "Ph2 digi with no Ph1 correspondence; time (ns); entries/50 ns",
