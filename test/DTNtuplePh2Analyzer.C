@@ -83,6 +83,8 @@ void DTNtuplePh2Analyzer::book()
   // --- 2D plots
   
   // ph2 wrt ph1 plots
+
+  // ph2 Minus Ph1 digi
   // Wh2 Se12 St2
   // SL1 
   m_2Dplots["h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL1L1"] = new TH2F("h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL1L1",
@@ -110,7 +112,33 @@ void DTNtuplePh2Analyzer::book()
 						       "Ph2 digi offset wrt Ph1 digi - Wh2 Se12 St2 SL1 L3; wire; #Delta t (ns)",
 						       21,-0.5,20.5,100,79000,81000);   
 
+  // Ph2 digi with no matching Ph1 digi
+  // Wh2 Se12 St2
+  // SL1
+  m_2Dplots["h2_Ph2DigiWithoutPh1_Wh2Se12St2SL1L1"] = new TH2F("h2_Ph2DigiWithoutPh1_Wh2Se12St2SL1L1",
+				                               "Ph2 digi with no Ph1 correspondence - Wh2 Se12 St2 SL1 L1; wire; time (ns);",
+				                               21,-0.5,20.5,300,75000.,90000.); 
 
+  m_2Dplots["h2_Ph2DigiWithoutPh1_Wh2Se12St2SL1L2"] = new TH2F("h2_Ph2DigiWithoutPh1_Wh2Se12St2SL1L2",
+				                               "Ph2 digi with no Ph1 correspondence - Wh2 Se12 St2 SL1 L2; wire; time (ns);",
+				                               21,-0.5,20.5,300,75000.,90000.); 
+
+  m_2Dplots["h2_Ph2DigiWithoutPh1_Wh2Se12St2SL1L3"] = new TH2F("h2_Ph2DigiWithoutPh1_Wh2Se12St2SL1L3",
+				                               "Ph2 digi with no Ph1 correspondence - Wh2 Se12 St2 SL1 L3; wire; time (ns);",
+				                               21,-0.5,20.5,300,75000.,90000.); 
+
+  // SL3
+  m_2Dplots["h2_Ph2DigiWithoutPh1_Wh2Se12St2SL3L1"] = new TH2F("h2_Ph2DigiWithoutPh1_Wh2Se12St2SL3L1",
+				                               "Ph2 digi with no Ph1 correspondence - Wh2 Se12 St2 SL3 L1; wire; time (ns);",
+				                               21,-0.5,20.5,300,75000.,90000.); 
+
+  m_2Dplots["h2_Ph2DigiWithoutPh1_Wh2Se12St2SL3L2"] = new TH2F("h2_Ph2DigiWithoutPh1_Wh2Se12St2SL3L2",
+				                               "Ph2 digi with no Ph1 correspondence - Wh2 Se12 St2 SL3 L2; wire; time (ns);",
+				                               21,-0.5,20.5,300,75000.,90000.); 
+
+  m_2Dplots["h2_Ph2DigiWithoutPh1_Wh2Se12St2SL3L3"] = new TH2F("h2_Ph2DigiWithoutPh1_Wh2Se12St2SL3L3",
+				                               "Ph2 digi with no Ph1 correspondence - Wh2 Se12 St2 SL3 L3; wire; time (ns);",
+				                               21,-0.5,20.5,300,75000.,90000.); 
 
 
   // TEfficiency ph2 wrt ph1
@@ -196,6 +224,19 @@ void DTNtuplePh2Analyzer::compare()
       for(auto const& a : x.second){
         // save in histo ph2 digi that don't have ph1 digi correspondence
         m_plots["h_Ph2DigiWithoutPh1"]->Fill(a);
+
+        // save ph2 digi that do not have ph1 digi correspondence wire by wire
+        // Wh2 Se12 St2
+        if(x.first.wheel() == 2 && x.first.sector() == 12 && x.first.station() == 2){
+          // SL1
+          if      ( x.first.superlayer() == 1 && x.first.layer() == 1 ){ m_2Dplots["h2_Ph2DigiWithoutPh1_Wh2Se12St2SL1L1"]->Fill(x.first.wire(), a); }
+          else if ( x.first.superlayer() == 1 && x.first.layer() == 2 ){ m_2Dplots["h2_Ph2DigiWithoutPh1_Wh2Se12St2SL1L2"]->Fill(x.first.wire(), a); }
+          else if ( x.first.superlayer() == 1 && x.first.layer() == 3 ){ m_2Dplots["h2_Ph2DigiWithoutPh1_Wh2Se12St2SL1L3"]->Fill(x.first.wire(), a); } 
+          // SL3
+          else if ( x.first.superlayer() == 3 && x.first.layer() == 1 ){ m_2Dplots["h2_Ph2DigiWithoutPh1_Wh2Se12St2SL3L1"]->Fill(x.first.wire(), a); } 
+          else if ( x.first.superlayer() == 3 && x.first.layer() == 2 ){ m_2Dplots["h2_Ph2DigiWithoutPh1_Wh2Se12St2SL3L2"]->Fill(x.first.wire(), a); } 
+          else if ( x.first.superlayer() == 3 && x.first.layer() == 3 ){ m_2Dplots["h2_Ph2DigiWithoutPh1_Wh2Se12St2SL3L3"]->Fill(x.first.wire(), a); } 
+        }
       }
     } 
     else{
