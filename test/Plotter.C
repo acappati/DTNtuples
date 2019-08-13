@@ -51,6 +51,14 @@ void doThePlots(TString inputFile, TString outputPathPlots)
   TH1F* h_Ph2DigiMinusPh1Digi      = (TH1F*)inFile->Get("h_Ph2DigiMinusPh1Digi");
   TH1F* h_Ph2DigiMinusPh1Digi_zoom = (TH1F*)inFile->Get("h_Ph2DigiMinusPh1Digi_zoom");
   TH1F* h_Ph2DigiMinusPh1Digi_min  = (TH1F*)inFile->Get("h_Ph2DigiMinusPh1Digi_min");
+  
+  TH2F* h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL1L1 = (TH2F*)inFile->Get("h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL1L1");
+  TH2F* h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL1L2 = (TH2F*)inFile->Get("h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL1L2");
+  TH2F* h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL1L3 = (TH2F*)inFile->Get("h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL1L3");
+
+  TH2F* h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL3L1 = (TH2F*)inFile->Get("h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL3L1");
+  TH2F* h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL3L2 = (TH2F*)inFile->Get("h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL3L2");
+  TH2F* h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL3L3 = (TH2F*)inFile->Get("h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL3L3");
 
   TEfficiency* eff2_Ph2DigiMatching = (TEfficiency*)inFile->Get("eff2_Ph2DigiMatching");
 
@@ -120,6 +128,46 @@ void doThePlots(TString inputFile, TString outputPathPlots)
   h_Ph2DigiMinusPh1Digi_min->Draw();
   c_Ph2DigiMinusPh1Digi_min_log->SaveAs(outputPathPlots + "/" + c_Ph2DigiMinusPh1Digi_min_log->GetName() + ".png");
 
+
+  // --- 2D hists
+  // Wh2 Se12 St2
+  // SL1
+  TCanvas* c_h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL1L1 = new TCanvas("c_h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL1L1","c_h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL1L1");
+  c_h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL1L1->cd();
+  h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL1L1->SetFillColor(kBlue);
+  h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL1L1->Draw("box");
+  c_h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL1L1->SaveAs(outputPathPlots + "/" + c_h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL1L1->GetName() + ".png");
+
+  TCanvas* c_h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL1L2 = new TCanvas("c_h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL1L2","c_h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL1L2");
+  c_h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL1L2->cd();
+  h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL1L2->SetFillColor(kBlue);
+  h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL1L2->Draw("box");
+  c_h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL1L2->SaveAs(outputPathPlots + "/" + c_h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL1L2->GetName() + ".png");
+
+  TCanvas* c_h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL1L3 = new TCanvas("c_h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL1L3","c_h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL1L3");
+  c_h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL1L3->cd();
+  h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL1L3->SetFillColor(kBlue);
+  h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL1L3->Draw("box");
+  c_h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL1L3->SaveAs(outputPathPlots + "/" + c_h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL1L3->GetName() + ".png");
+
+  // SL3
+  TCanvas* c_h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL3L1 = new TCanvas("c_h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL3L1","c_h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL3L1");
+  c_h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL3L1->cd();
+  h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL3L1->SetFillColor(kBlue);
+  h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL3L1->Draw("box");
+  c_h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL3L1->SaveAs(outputPathPlots + "/" + c_h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL3L1->GetName() + ".png");
+
+  TCanvas* c_h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL3L2 = new TCanvas("c_h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL3L2","c_h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL3L2");
+  c_h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL3L2->cd();
+  h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL3L2->SetFillColor(kBlue);
+  h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL3L2->Draw("box");
+  c_h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL3L2->SaveAs(outputPathPlots + "/" + c_h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL3L2->GetName() + ".png");
+
+  TCanvas* c_h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL3L3 = new TCanvas("c_h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL3L3","c_h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL3L3");
+  c_h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL3L3->cd();
+  h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL3L3->SetFillColor(kBlue);
+  h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL3L3->Draw("box");
+  c_h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL3L3->SaveAs(outputPathPlots + "/" + c_h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL3L3->GetName() + ".png");
 
 
   // --- tefficiency ph1 ph2 matching

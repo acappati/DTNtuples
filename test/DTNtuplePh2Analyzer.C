@@ -52,6 +52,8 @@ void DTNtuplePh2Analyzer::book()
 
   f_outFile.cd();
 
+  // --- 1D plots
+
   // time boxes
   m_plots["h_timeBoxPh1"] = new TH1F("h_timeBoxPh1",
                                      "Time box ph1; time (ns); entries/5 ns",
@@ -78,6 +80,38 @@ void DTNtuplePh2Analyzer::book()
   				                  "Ph2 digi offset wrt Ph1 digi; time (ns); entries/10 ns",
                                                   100,79400,80400.);
   
+  // --- 2D plots
+  
+  // ph2 wrt ph1 plots
+  // Wh2 Se12 St2
+  // SL1 
+  m_2Dplots["h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL1L1"] = new TH2F("h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL1L1",
+						       "Ph2 digi offset wrt Ph1 digi - Wh2 Se12 St2 SL1 L1; wire; #Delta t (ns)",
+						       21,-0.5,20.5,100,79000,81000);   
+
+  m_2Dplots["h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL1L2"] = new TH2F("h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL1L2",
+						       "Ph2 digi offset wrt Ph1 digi - Wh2 Se12 St2 SL1 L2; wire; #Delta t (ns)",
+						       21,-0.5,20.5,100,79000,81000);   
+
+  m_2Dplots["h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL1L3"] = new TH2F("h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL1L3",
+						       "Ph2 digi offset wrt Ph1 digi - Wh2 Se12 St2 SL1 L3; wire; #Delta t (ns)",
+						       21,-0.5,20.5,100,79000,81000);   
+
+  // SL3
+  m_2Dplots["h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL3L1"] = new TH2F("h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL3L1",
+						       "Ph2 digi offset wrt Ph1 digi - Wh2 Se12 St2 SL3 L1; wire; #Delta t (ns)",
+						       21,-0.5,20.5,100,79000,81000);   
+
+  m_2Dplots["h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL3L2"] = new TH2F("h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL3L2",
+						       "Ph2 digi offset wrt Ph1 digi - Wh2 Se12 St2 SL3 L2; wire; #Delta t (ns)",
+						       21,-0.5,20.5,100,79000,81000);   
+
+  m_2Dplots["h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL3L3"] = new TH2F("h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL3L3",
+						       "Ph2 digi offset wrt Ph1 digi - Wh2 Se12 St2 SL1 L3; wire; #Delta t (ns)",
+						       21,-0.5,20.5,100,79000,81000);   
+
+
+
 
   // TEfficiency ph2 wrt ph1
   m_eff["eff2_Ph2DigiMatching"] = new TEfficiency("eff2_Ph2DigiMatching",
@@ -180,6 +214,19 @@ void DTNtuplePh2Analyzer::compare()
           // save in histo ph2 digi and ph1 digi difference cell by cell
           m_plots["h_Ph2DigiMinusPh1Digi"]->Fill(a-b);
           m_plots["h_Ph2DigiMinusPh1Digi_zoom"]->Fill(a-b);
+
+          // save in histo ph2 digi and ph1 digi difference cell by cell 
+          // Wh2 Se12 St2 
+          if(x.first.wheel() == 2 && x.first.sector() == 12 && x.first.station() == 2){
+            // SL1
+            if      ( x.first.superlayer() == 1 && x.first.layer() == 1 ){ m_2Dplots["h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL1L1"]->Fill(x.first.wire(), a-b); }
+            else if ( x.first.superlayer() == 1 && x.first.layer() == 2 ){ m_2Dplots["h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL1L2"]->Fill(x.first.wire(), a-b); }
+            else if ( x.first.superlayer() == 1 && x.first.layer() == 3 ){ m_2Dplots["h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL1L3"]->Fill(x.first.wire(), a-b); } 
+            // SL3
+            else if ( x.first.superlayer() == 3 && x.first.layer() == 1 ){ m_2Dplots["h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL3L1"]->Fill(x.first.wire(), a-b); } 
+            else if ( x.first.superlayer() == 3 && x.first.layer() == 2 ){ m_2Dplots["h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL3L2"]->Fill(x.first.wire(), a-b); } 
+            else if ( x.first.superlayer() == 3 && x.first.layer() == 3 ){ m_2Dplots["h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL3L3"]->Fill(x.first.wire(), a-b); } 
+          }
         }
       }
       // save in histo ph2 digi and ph1 minimum digi difference cell by cell

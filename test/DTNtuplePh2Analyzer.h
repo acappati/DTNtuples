@@ -42,6 +42,7 @@ class DTNtuplePh2Analyzer : public DTNtupleBaseAnalyzer
   std::map<DTWireId, std::vector<float> > m_ph2Digis;
 
   std::map<TString, TH1*> m_plots;
+  std::map<TString, TH2*> m_2Dplots;
 
   std::map<TString, TEfficiency*> m_eff;
 
