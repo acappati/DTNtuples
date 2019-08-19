@@ -89,6 +89,14 @@ void DTNtuplePh2Analyzer::book()
   m_plots["h_Ph2DigiMinusPh1Digi_min"] = new TH1F("h_Ph2DigiMinusPh1Digi_min",
   				                  "Ph2 digi offset wrt Ph1 digi; time (ns); entries/10 ns",
                                                   100,79400,80400.);
+
+
+  // ph1 wrt ph2 plots
+  m_plots["h_Ph1DigiWithoutPh2"] = new TH1F("h_Ph1DigiWithoutPh2",
+				            "Ph1 digi with no Ph2 correspondence; time (ns); entries/50 ns",
+				            300,75000.,90000.); 
+
+
   
   // --- 2D plots
   
@@ -159,6 +167,12 @@ void DTNtuplePh2Analyzer::book()
                                                   "Ph2 digi matching efficiency; wire; 4*(SL-1)+L",
                                                   21,-0.5,20.5,12,0.5,12.5);
 
+  // TEfficiency ph1 wrt ph2
+  m_eff["eff2_Ph1DigiMatching"] = new TEfficiency("eff2_Ph1DigiMatching",
+                                                  "Ph1 digi matching efficiency; wire; 4*(SL-1)+L",
+                                                  21,-0.5,20.5,12,0.5,12.5);
+
+
 }
 
 void DTNtuplePh2Analyzer::fillMap()
@@ -227,7 +241,7 @@ void DTNtuplePh2Analyzer::compare()
   // bool: true if ph2 digi matching with ph1 digi
   bool bPassPh2;
 
-  // compare ph2 and ph1 digis
+  // --- compare ph2 and ph1 digis
   for (auto const& x : m_ph2Digis)
   {
     if(x.second.size() == 0) continue;
@@ -296,6 +310,34 @@ void DTNtuplePh2Analyzer::compare()
     // TEfficiency for ph2 digi that have ph1 digi correspondence 
     m_eff["eff2_Ph2DigiMatching"]->Fill(bPassPh2, x.first.wire(), 4*(x.first.superlayer()-1)+x.first.layer());  
   }
+
+
+  // ------------------------------
+  // bool: true if ph1 digi matching with ph2 digi
+  bool bPassPh1;
+
+  // --- compare ph1 and ph2 digi
+  for (auto const& x : m_ph1Digis)
+  {
+    if(x.second.size() == 0) continue;
+
+    // bool false for all ph1 digi (for TEff)
+    bPassPh1 = false;
+
+    if(m_ph2Digis[x.first].size() == 0){
+      for(auto const& a : x.second){
+        // save in histo ph1 digi that don't have ph2 digi correspondence
+        m_plots["h_Ph1DigiWithoutPh2"]->Fill(a + 79900);
+      }
+    }
+    else{
+      // bool true for ph1 digi that have ph2 digi correspondence 
+      bPassPh1 = true;
+    }
+
+    // TEfficiency for ph1 digi that have ph2 digi correspondence 
+    m_eff["eff2_Ph1DigiMatching"]->Fill(bPassPh1, x.first.wire(), 4*(x.first.superlayer()-1)+x.first.layer());  
+  }  
 
 }
 

@@ -53,6 +53,7 @@ void doThePlots(TString inputFile, TString outputPathPlots)
   TH1F* h_Ph2DigiMinusPh1Digi      = (TH1F*)inFile->Get("h_Ph2DigiMinusPh1Digi");
   TH1F* h_Ph2DigiMinusPh1Digi_zoom = (TH1F*)inFile->Get("h_Ph2DigiMinusPh1Digi_zoom");
   TH1F* h_Ph2DigiMinusPh1Digi_min  = (TH1F*)inFile->Get("h_Ph2DigiMinusPh1Digi_min");
+  TH1F* h_Ph1DigiWithoutPh2        = (TH1F*)inFile->Get("h_Ph1DigiWithoutPh2");
   
 
   TH2F* h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL1L1 = (TH2F*)inFile->Get("h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL1L1");
@@ -78,6 +79,7 @@ void doThePlots(TString inputFile, TString outputPathPlots)
 
 
   TEfficiency* eff2_Ph2DigiMatching = (TEfficiency*)inFile->Get("eff2_Ph2DigiMatching");
+  TEfficiency* eff2_Ph1DigiMatching = (TEfficiency*)inFile->Get("eff2_Ph1DigiMatching");
 
 
 
@@ -112,7 +114,7 @@ void doThePlots(TString inputFile, TString outputPathPlots)
   TCanvas* c_Ph2vsPh1Digi = new TCanvas("c_Ph2vsPh1Digi","c_Ph2vsPh1Digi");
   c_Ph2vsPh1Digi->cd();
   c_Ph2vsPh1Digi->SetLogy();
-  h_ph1Digi->SetLineColor(kBlue);
+  h_ph1Digi->SetLineColor(kBlack);
   h_ph2Digi->SetLineColor(kRed);
   h_ph1Digi->SetTitle("Ph2 Digi vs Ph1 Digi");
   h_ph1Digi->Draw("l");
@@ -133,12 +135,15 @@ void doThePlots(TString inputFile, TString outputPathPlots)
   TCanvas* c_Ph2OrphanvsPh2Digi = new TCanvas("c_Ph2OrphanvsPh2Digi","c_Ph2OrphanvsPh2Digi");
   c_Ph2OrphanvsPh2Digi->cd();
   c_Ph2OrphanvsPh2Digi->SetLogy();
-  h_ph2Digi->SetLineColor(kBlue);
-  h_Ph2DigiWithoutPh1->SetLineColor(kRed);
-  h_ph2Digi->SetTitle("Ph2 Orphan Digi vs Ph2 Digi");
-  h_ph2Digi->Draw("l");
+  h_ph1Digi->SetLineColor(kBlack);
+  h_ph2Digi->SetLineColor(kRed);
+  h_Ph2DigiWithoutPh1->SetLineColor(kBlue);
+  h_ph1Digi->SetTitle("Ph2 Orphan Digi vs Ph2 and Ph1 Digi");
+  h_ph1Digi->Draw("l");
+  h_ph2Digi->Draw("samel");
   h_Ph2DigiWithoutPh1->Draw("samel");
-  TLegend* l_Ph2OrphanvsPh2Digi = new TLegend(0.73,0.74,0.98,0.94);
+  TLegend* l_Ph2OrphanvsPh2Digi = new TLegend(0.73,0.72,0.98,0.94);
+  l_Ph2OrphanvsPh2Digi->AddEntry(h_ph1Digi,"ph1 digi","f");
   l_Ph2OrphanvsPh2Digi->AddEntry(h_ph2Digi,"ph2 digi","f");
   l_Ph2OrphanvsPh2Digi->AddEntry(h_Ph2DigiWithoutPh1,"ph2 orphan digi","f");
   l_Ph2OrphanvsPh2Digi->SetFillColor(kWhite);
@@ -148,6 +153,31 @@ void doThePlots(TString inputFile, TString outputPathPlots)
   l_Ph2OrphanvsPh2Digi->Draw();
   c_Ph2OrphanvsPh2Digi->Update();
   c_Ph2OrphanvsPh2Digi->SaveAs(outputPathPlots + "/" + c_Ph2OrphanvsPh2Digi->GetName() + ".png");
+
+
+  // --- compare ph1 orphan digi with ph1 and ph2 tot 
+  TCanvas* c_Ph1OrphanvsPh2Digi = new TCanvas("c_Ph1OrphanvsPh2Digi","c_Ph1OrphanvsPh2Digi");
+  c_Ph1OrphanvsPh2Digi->cd();
+  c_Ph1OrphanvsPh2Digi->SetLogy();
+  h_ph1Digi->SetLineColor(kBlack);
+  h_ph2Digi->SetLineColor(kRed);
+  h_Ph1DigiWithoutPh2->SetLineColor(kBlue);
+  h_ph1Digi->SetTitle("Ph1 Orphan Digi vs Ph2 and Ph1 Digi");
+  h_ph1Digi->Draw("l");
+  h_ph2Digi->Draw("samel");
+  h_Ph1DigiWithoutPh2->Draw("samel");
+  TLegend* l_Ph1OrphanvsPh2Digi = new TLegend(0.73,0.72,0.98,0.94);
+  l_Ph1OrphanvsPh2Digi->AddEntry(h_ph1Digi,"ph1 digi","f");
+  l_Ph1OrphanvsPh2Digi->AddEntry(h_ph2Digi,"ph2 digi","f");
+  l_Ph1OrphanvsPh2Digi->AddEntry(h_Ph1DigiWithoutPh2,"ph2 orphan digi","f");
+  l_Ph1OrphanvsPh2Digi->SetFillColor(kWhite);
+  l_Ph1OrphanvsPh2Digi->SetLineColor(kBlack);
+  l_Ph1OrphanvsPh2Digi->SetTextFont(43);
+  l_Ph1OrphanvsPh2Digi->SetTextSize(20);
+  l_Ph1OrphanvsPh2Digi->Draw();
+  c_Ph1OrphanvsPh2Digi->Update();
+  c_Ph1OrphanvsPh2Digi->SaveAs(outputPathPlots + "/" + c_Ph1OrphanvsPh2Digi->GetName() + ".png");
+
 
 
   // --- ph2 - ph1 digi
@@ -325,6 +355,18 @@ void doThePlots(TString inputFile, TString outputPathPlots)
   h_eff2_Ph2DigiMatching->Draw("same");
   gPad->Update();
   c_eff2_Ph2DigiMatching->SaveAs(outputPathPlots + "/" + c_eff2_Ph2DigiMatching->GetName() + ".png");
+
+
+  TCanvas* c_eff2_Ph1DigiMatching = new TCanvas("c_eff2_Ph1DigiMatching","c_eff2_Ph1DigiMatching");
+  c_eff2_Ph1DigiMatching->cd();
+  eff2_Ph1DigiMatching->Draw("COLZ");
+  gPad->Update();
+  TH2* h_eff2_Ph1DigiMatching = eff2_Ph1DigiMatching->GetPaintedHistogram();
+  h_eff2_Ph1DigiMatching->SetMinimum(0.9);
+  h_eff2_Ph1DigiMatching->SetMaximum(1.0);
+  h_eff2_Ph1DigiMatching->Draw("same");
+  gPad->Update();
+  c_eff2_Ph1DigiMatching->SaveAs(outputPathPlots + "/" + c_eff2_Ph1DigiMatching->GetName() + ".png");
   
 
    
