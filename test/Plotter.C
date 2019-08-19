@@ -383,7 +383,7 @@ void Plotter()
   TString inputFile = "results.root";
 
   // define output directory
-  TString outputPathPlots = "~/www/DTDPG/plots_run329806";
+  TString outputPathPlots = "~/www/DTDPG/plots_run330703";
   gSystem->Exec("mkdir -p "+outputPathPlots);
 
   // call funciton for plots
