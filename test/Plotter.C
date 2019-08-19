@@ -47,6 +47,8 @@ void doThePlots(TString inputFile, TString outputPathPlots)
   // take histos
   TH1F* h_timeBoxPh1               = (TH1F*)inFile->Get("h_timeBoxPh1");
   TH1F* h_timeBoxPh2               = (TH1F*)inFile->Get("h_timeBoxPh2");
+  TH1F* h_ph1Digi                  = (TH1F*)inFile->Get("h_ph1Digi");
+  TH1F* h_ph2Digi                  = (TH1F*)inFile->Get("h_ph2Digi");
   TH1F* h_Ph2DigiWithoutPh1        = (TH1F*)inFile->Get("h_Ph2DigiWithoutPh1");
   TH1F* h_Ph2DigiMinusPh1Digi      = (TH1F*)inFile->Get("h_Ph2DigiMinusPh1Digi");
   TH1F* h_Ph2DigiMinusPh1Digi_zoom = (TH1F*)inFile->Get("h_Ph2DigiMinusPh1Digi_zoom");
@@ -104,6 +106,48 @@ void doThePlots(TString inputFile, TString outputPathPlots)
   c_Ph2DigiWithoutPh1_log->SetLogy();
   h_Ph2DigiWithoutPh1->Draw();
   c_Ph2DigiWithoutPh1_log->SaveAs(outputPathPlots + "/" + c_Ph2DigiWithoutPh1_log->GetName() + ".png");
+
+  
+  // --- compare tot digi
+  TCanvas* c_Ph2vsPh1Digi = new TCanvas("c_Ph2vsPh1Digi","c_Ph2vsPh1Digi");
+  c_Ph2vsPh1Digi->cd();
+  c_Ph2vsPh1Digi->SetLogy();
+  h_ph1Digi->SetLineColor(kBlue);
+  h_ph2Digi->SetLineColor(kRed);
+  h_ph1Digi->SetTitle("Ph2 Digi vs Ph1 Digi");
+  h_ph1Digi->Draw("l");
+  h_ph2Digi->Draw("samel");
+  TLegend* l_Ph2vsPh1Digi = new TLegend(0.75,0.74,0.98,0.94);
+  l_Ph2vsPh1Digi->AddEntry(h_ph1Digi,"ph1 digi","f");
+  l_Ph2vsPh1Digi->AddEntry(h_ph2Digi,"ph2 digi","f");
+  l_Ph2vsPh1Digi->SetFillColor(kWhite);
+  l_Ph2vsPh1Digi->SetLineColor(kBlack);
+  l_Ph2vsPh1Digi->SetTextFont(43);
+  l_Ph2vsPh1Digi->SetTextSize(20);
+  l_Ph2vsPh1Digi->Draw();
+  c_Ph2vsPh1Digi->Update();
+  c_Ph2vsPh1Digi->SaveAs(outputPathPlots + "/" + c_Ph2vsPh1Digi->GetName() + ".png");
+
+
+  // --- compare ph2 orphan digi with ph2 tot 
+  TCanvas* c_Ph2OrphanvsPh2Digi = new TCanvas("c_Ph2OrphanvsPh2Digi","c_Ph2OrphanvsPh2Digi");
+  c_Ph2OrphanvsPh2Digi->cd();
+  c_Ph2OrphanvsPh2Digi->SetLogy();
+  h_ph2Digi->SetLineColor(kBlue);
+  h_Ph2DigiWithoutPh1->SetLineColor(kRed);
+  h_ph2Digi->SetTitle("Ph2 Orphan Digi vs Ph2 Digi");
+  h_ph2Digi->Draw("l");
+  h_Ph2DigiWithoutPh1->Draw("samel");
+  TLegend* l_Ph2OrphanvsPh2Digi = new TLegend(0.73,0.74,0.98,0.94);
+  l_Ph2OrphanvsPh2Digi->AddEntry(h_ph2Digi,"ph2 digi","f");
+  l_Ph2OrphanvsPh2Digi->AddEntry(h_Ph2DigiWithoutPh1,"ph2 orphan digi","f");
+  l_Ph2OrphanvsPh2Digi->SetFillColor(kWhite);
+  l_Ph2OrphanvsPh2Digi->SetLineColor(kBlack);
+  l_Ph2OrphanvsPh2Digi->SetTextFont(43);
+  l_Ph2OrphanvsPh2Digi->SetTextSize(20);
+  l_Ph2OrphanvsPh2Digi->Draw();
+  c_Ph2OrphanvsPh2Digi->Update();
+  c_Ph2OrphanvsPh2Digi->SaveAs(outputPathPlots + "/" + c_Ph2OrphanvsPh2Digi->GetName() + ".png");
 
 
   // --- ph2 - ph1 digi

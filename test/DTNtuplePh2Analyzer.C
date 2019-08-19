@@ -63,6 +63,16 @@ void DTNtuplePh2Analyzer::book()
                                      "Time box Ph2; time (ns); entries/5 ns",
                                      1000,80000.,85000.); 
 
+  // digis
+  m_plots["h_ph1Digi"] = new TH1F("h_ph1Digi",
+                                  "Ph1 digis; time (ns); entries/50 ns",
+                                  300,75000.,90000.);
+
+  m_plots["h_ph2Digi"] = new TH1F("h_ph2Digi",
+                                  "Ph2 digis; time (ns); entries/50 ns",
+                                  300,75000.,90000.);
+
+
   // ph2 wrt ph1 plots
   m_plots["h_Ph2DigiWithoutPh1"] = new TH1F("h_Ph2DigiWithoutPh1",
 				            "Ph2 digi with no Ph1 correspondence; time (ns); entries/50 ns",
@@ -156,10 +166,12 @@ void DTNtuplePh2Analyzer::fillMap()
   // fill ph1 time box
   for (std::size_t iDigi = 0; iDigi < digi_nDigis; ++iDigi){
     m_plots["h_timeBoxPh1"]->Fill(digi_time->at(iDigi));
+    m_plots["h_ph1Digi"]->Fill(digi_time->at(iDigi) + 79900); // ph1 digi for comparison with ph2
   }
   // fill ph2 time box
   for (std::size_t iDigi = 0; iDigi < ph2Digi_nDigis; ++iDigi){
     m_plots["h_timeBoxPh2"]->Fill(ph2Digi_time->at(iDigi));
+    m_plots["h_ph2Digi"]->Fill(ph2Digi_time->at(iDigi)); // ph2 digi or comparison with ph1
   }
 
 
