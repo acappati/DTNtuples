@@ -56,19 +56,23 @@ void doThePlots(TString inputFile, TString outputPathPlots)
   TH2F* h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL1L1 = (TH2F*)inFile->Get("h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL1L1");
   TH2F* h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL1L2 = (TH2F*)inFile->Get("h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL1L2");
   TH2F* h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL1L3 = (TH2F*)inFile->Get("h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL1L3");
+  TH2F* h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL1L4 = (TH2F*)inFile->Get("h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL1L4");
 
   TH2F* h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL3L1 = (TH2F*)inFile->Get("h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL3L1");
   TH2F* h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL3L2 = (TH2F*)inFile->Get("h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL3L2");
   TH2F* h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL3L3 = (TH2F*)inFile->Get("h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL3L3");
+  TH2F* h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL3L4 = (TH2F*)inFile->Get("h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL3L4");
 
 
   TH2F* h2_Ph2DigiWithoutPh1_Wh2Se12St2SL1L1 = (TH2F*)inFile->Get("h2_Ph2DigiWithoutPh1_Wh2Se12St2SL1L1"); 
   TH2F* h2_Ph2DigiWithoutPh1_Wh2Se12St2SL1L2 = (TH2F*)inFile->Get("h2_Ph2DigiWithoutPh1_Wh2Se12St2SL1L2"); 
   TH2F* h2_Ph2DigiWithoutPh1_Wh2Se12St2SL1L3 = (TH2F*)inFile->Get("h2_Ph2DigiWithoutPh1_Wh2Se12St2SL1L3"); 
+  TH2F* h2_Ph2DigiWithoutPh1_Wh2Se12St2SL1L4 = (TH2F*)inFile->Get("h2_Ph2DigiWithoutPh1_Wh2Se12St2SL1L4"); 
 
   TH2F* h2_Ph2DigiWithoutPh1_Wh2Se12St2SL3L1 = (TH2F*)inFile->Get("h2_Ph2DigiWithoutPh1_Wh2Se12St2SL3L1"); 
   TH2F* h2_Ph2DigiWithoutPh1_Wh2Se12St2SL3L2 = (TH2F*)inFile->Get("h2_Ph2DigiWithoutPh1_Wh2Se12St2SL3L2"); 
   TH2F* h2_Ph2DigiWithoutPh1_Wh2Se12St2SL3L3 = (TH2F*)inFile->Get("h2_Ph2DigiWithoutPh1_Wh2Se12St2SL3L3"); 
+  TH2F* h2_Ph2DigiWithoutPh1_Wh2Se12St2SL3L4 = (TH2F*)inFile->Get("h2_Ph2DigiWithoutPh1_Wh2Se12St2SL3L4"); 
 
 
   TEfficiency* eff2_Ph2DigiMatching = (TEfficiency*)inFile->Get("eff2_Ph2DigiMatching");
@@ -167,6 +171,13 @@ void doThePlots(TString inputFile, TString outputPathPlots)
   h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL1L3->Draw("box");
   c_h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL1L3->SaveAs(outputPathPlots + "/" + c_h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL1L3->GetName() + ".png");
 
+  TCanvas* c_h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL1L4 = new TCanvas("c_h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL1L4","c_h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL1L4");
+  c_h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL1L4->cd();
+  h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL1L4->SetFillColor(kBlue);
+  h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL1L4->GetYaxis()->SetTitleOffset(1.4);
+  h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL1L4->Draw("box");
+  c_h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL1L4->SaveAs(outputPathPlots + "/" + c_h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL1L4->GetName() + ".png");
+
   // SL3
   TCanvas* c_h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL3L1 = new TCanvas("c_h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL3L1","c_h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL3L1");
   c_h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL3L1->cd();
@@ -188,6 +199,13 @@ void doThePlots(TString inputFile, TString outputPathPlots)
   h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL3L3->GetYaxis()->SetTitleOffset(1.4);
   h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL3L3->Draw("box");
   c_h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL3L3->SaveAs(outputPathPlots + "/" + c_h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL3L3->GetName() + ".png");
+
+  TCanvas* c_h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL3L4 = new TCanvas("c_h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL3L4","c_h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL3L4");
+  c_h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL3L4->cd();
+  h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL3L4->SetFillColor(kBlue);
+  h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL3L4->GetYaxis()->SetTitleOffset(1.4);
+  h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL3L4->Draw("box");
+  c_h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL3L4->SaveAs(outputPathPlots + "/" + c_h2_Ph2DigiMinusPh1Digi_Wh2Se12St2SL3L4->GetName() + ".png");
 
 
   // Ph2 Digi Without Ph1
@@ -214,6 +232,13 @@ void doThePlots(TString inputFile, TString outputPathPlots)
   h2_Ph2DigiWithoutPh1_Wh2Se12St2SL1L3->Draw("box");
   c_h2_Ph2DigiWithoutPh1_Wh2Se12St2SL1L3->SaveAs(outputPathPlots + "/" + c_h2_Ph2DigiWithoutPh1_Wh2Se12St2SL1L3->GetName() + ".png");
 
+  TCanvas* c_h2_Ph2DigiWithoutPh1_Wh2Se12St2SL1L4 = new TCanvas("c_h2_Ph2DigiWithoutPh1_Wh2Se12St2SL1L4","c_h2_Ph2DigiWithoutPh1_Wh2Se12St2SL1L4");
+  c_h2_Ph2DigiWithoutPh1_Wh2Se12St2SL1L4->cd();
+  h2_Ph2DigiWithoutPh1_Wh2Se12St2SL1L4->SetFillColor(kRed);
+  h2_Ph2DigiWithoutPh1_Wh2Se12St2SL1L4->GetYaxis()->SetTitleOffset(1.4);
+  h2_Ph2DigiWithoutPh1_Wh2Se12St2SL1L4->Draw("box");
+  c_h2_Ph2DigiWithoutPh1_Wh2Se12St2SL1L4->SaveAs(outputPathPlots + "/" + c_h2_Ph2DigiWithoutPh1_Wh2Se12St2SL1L4->GetName() + ".png");
+
   // SL3
   TCanvas* c_h2_Ph2DigiWithoutPh1_Wh2Se12St2SL3L1 = new TCanvas("c_h2_Ph2DigiWithoutPh1_Wh2Se12St2SL3L1","c_h2_Ph2DigiWithoutPh1_Wh2Se12St2SL3L1");
   c_h2_Ph2DigiWithoutPh1_Wh2Se12St2SL3L1->cd();
@@ -235,6 +260,13 @@ void doThePlots(TString inputFile, TString outputPathPlots)
   h2_Ph2DigiWithoutPh1_Wh2Se12St2SL3L3->GetYaxis()->SetTitleOffset(1.4);
   h2_Ph2DigiWithoutPh1_Wh2Se12St2SL3L3->Draw("box");
   c_h2_Ph2DigiWithoutPh1_Wh2Se12St2SL3L3->SaveAs(outputPathPlots + "/" + c_h2_Ph2DigiWithoutPh1_Wh2Se12St2SL3L3->GetName() + ".png");
+
+  TCanvas* c_h2_Ph2DigiWithoutPh1_Wh2Se12St2SL3L4 = new TCanvas("c_h2_Ph2DigiWithoutPh1_Wh2Se12St2SL3L4","c_h2_Ph2DigiWithoutPh1_Wh2Se12St2SL3L4");
+  c_h2_Ph2DigiWithoutPh1_Wh2Se12St2SL3L4->cd();
+  h2_Ph2DigiWithoutPh1_Wh2Se12St2SL3L4->SetFillColor(kRed);
+  h2_Ph2DigiWithoutPh1_Wh2Se12St2SL3L4->GetYaxis()->SetTitleOffset(1.4);
+  h2_Ph2DigiWithoutPh1_Wh2Se12St2SL3L4->Draw("box");
+  c_h2_Ph2DigiWithoutPh1_Wh2Se12St2SL3L4->SaveAs(outputPathPlots + "/" + c_h2_Ph2DigiWithoutPh1_Wh2Se12St2SL3L4->GetName() + ".png");
 
 
 
